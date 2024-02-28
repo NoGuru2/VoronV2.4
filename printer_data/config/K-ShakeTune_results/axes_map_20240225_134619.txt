@@ -1,0 +1,2 @@
+Detected axes_map:
+  -z,-y,-x
