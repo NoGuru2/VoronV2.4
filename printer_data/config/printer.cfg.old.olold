@@ -3,7 +3,7 @@
 #serial: /tmp/klipper_host_mcu
 
 [mcu]
-serial:/dev/serial/by-id/usb-Klipper_stm32h723xx_0D0021000C51313236343430-if00   #/dev/serial/by-id/usb-Klipper_stm32f429xx_1E002F000550524B57333320-if00  
+serial: /dev/serial/by-id/usb-Klipper_stm32f429xx_1E002F000550524B57333320-if00  
 restart_method: command
 
 [mcu nhk]
@@ -87,52 +87,38 @@ damping_ratio_y: 0.116 # damping ratio for the Y axis
 ##  Connected to MOTOR_0
 ##  Endstop connected to DIAG_0
 [stepper_x]
-step_pin:PF13
-dir_pin:!PF12
+step_pin: PF13
+dir_pin: !PF12
 enable_pin: !PF14
 rotation_distance: 40
 microsteps: 64
-full_steps_per_rotation:200  
+full_steps_per_rotation:200  #set to 400 for 0.9 degree stepper
 endstop_pin: tmc5160_stepper_x:virtual_endstop # pin PG6
+#position_min: 4.000
+##--------------------------------------------------------------------
+
 position_endstop: 350
 position_max: 350
+
+##--------------------------------------------------------------------
 homing_speed: 40   #Max 100
 homing_retract_dist: 0
 homing_positive_dir: true
 
-[stepper_x1]
-step_pin:PE2
-dir_pin:!PE3
-enable_pin:!PD4
-rotation_distance: 40
-microsteps: 64
-full_steps_per_rotation:200  
-endstop_pin: tmc5160_stepper_x1:virtual_endstop # pin PG6
-
-
+##  Make sure to update below for your relevant driver (2208 or 2209)
+#[tmc2240 stepper_x]
 [tmc5160 stepper_x]
-cs_pin:PC4
+cs_pin: PC4
 spi_software_sclk_pin: PA5
 spi_software_mosi_pin: PA7
 spi_software_miso_pin: PA6
 diag1_pin:^!PG6
+#uart_pin: PC4
 interpolate: false
-run_current: 1.5
+run_current: 2.0
 #sense_resistor: 0.110
 #stealthchop_threshold: 0.1
-driver_SGT: 3
-
-[tmc5160 stepper_x1]
-cs_pin:PE1
-spi_software_sclk_pin: PA5
-spi_software_mosi_pin: PA7
-spi_software_miso_pin: PA6
-diag1_pin:^!PG14
-interpolate: false
-run_current: 1.5
-#sense_resistor: 0.110
-#stealthchop_threshold: 0.1
-driver_SGT: 3
+driver_SGT: 2
 
 ##  A Stepper - Right
 ##  Connected to MOTOR_1
@@ -140,47 +126,34 @@ driver_SGT: 3
 [stepper_y]
 step_pin: PG0
 dir_pin: !PG1
+
 enable_pin: !PF15
 rotation_distance: 40
 microsteps: 64
 full_steps_per_rotation:200  #set to 400 for 0.9 degree stepper
 endstop_pin: tmc5160_stepper_y:virtual_endstop # pin PG9
 position_min: -1
+##--------------------------------------------------------------------
+
 position_endstop: 350
 position_max: 350
+
+##--------------------------------------------------------------------
 homing_speed: 50  #Max 100
 homing_retract_dist: 0
 homing_positive_dir: true
 
-[stepper_y1]
-step_pin: PE6
-dir_pin: !PA14
-enable_pin:!PE0
-rotation_distance: 40
-microsteps: 64
-full_steps_per_rotation:200  #set to 400 for 0.9 degree stepper
-endstop_pin: tmc5160_stepper_y:virtual_endstop # pin PG9
-
+##  Make sure to update below for your relevant driver (2208 or 2209)
+#[tmc2240 stepper_y]
 [tmc5160 stepper_y]
 cs_pin: PD11
 spi_software_sclk_pin: PA5
 spi_software_mosi_pin: PA7
 spi_software_miso_pin: PA6
 diag1_pin:^!PG9
+#uart_pin: PD11
 interpolate: false
-run_current: 1.5
-#sense_resistor: 0.110
-#stealthchop_threshold: 0.1
-driver_SGT: 2
-
-[tmc5160 stepper_y1]
-cs_pin: PD3
-spi_software_sclk_pin: PA5
-spi_software_mosi_pin: PA7
-spi_software_miso_pin: PA6
-diag1_pin:^!PG15
-interpolate: false
-run_current: 1.5
+run_current: 2.0
 #sense_resistor: 0.110
 #stealthchop_threshold: 0.1
 driver_SGT: 2
@@ -219,19 +192,18 @@ hold_current: .5
 sense_resistor: 0.110
 stealthchop_threshold: 0
 
-
 ##  Z1 Stepper - Rear Left
 ##  Connected to MOTOR_3
 [stepper_z1]
-step_pin:PG4
-dir_pin:!PC1
-enable_pin:!PA2
+step_pin: PG4
+dir_pin: !PC1
+enable_pin: !PA0
 rotation_distance: 40
 gear_ratio: 80:16
 microsteps: 128
 
 [tmc2209 stepper_z1]
-uart_pin:PC7
+uart_pin: PC7
 interpolate: false
 run_current: .9
 hold_current: .5
@@ -291,10 +263,10 @@ interpolate: false
 step_pin: nhk:gpio23  #sb2040v2:gpio9
 dir_pin: nhk:gpio24  #sb2040v2:gpio10
 enable_pin: !nhk:gpio25  #!sb2040v2:gpio7
-rotation_distance: 47.088   #22.6789511  #25.577   #Bondtech 5mm Drive Gears
-gear_ratio: 9:1  #50:10               #BMG Gear Ratio
-microsteps: 16
-#full_steps_per_rotation: 200    #200 for 1.8 degree, 400 for 0.9 degree
+rotation_distance: 22.6789511  #25.577   #Bondtech 5mm Drive Gears
+gear_ratio: 50:10               #BMG Gear Ratio
+microsteps: 32
+full_steps_per_rotation: 200    #200 for 1.8 degree, 400 for 0.9 degree
 nozzle_diameter: 0.600
 filament_diameter: 1.75
 max_extrude_cross_section: 5
