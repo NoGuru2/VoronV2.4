@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd /home/pi/printer_data/config
+
+git add .
+
+if ! git diff --cached --quiet; then
+    git commit -m "Backup on $(date '+%Y-%m-%d %H:%M:%S')"
+    git push
+else
+    echo "No changes to commit."
+fi
